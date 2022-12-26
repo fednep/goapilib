@@ -14,16 +14,18 @@ func ServeForever(cfg common.ServerConfig, handler http.Handler) error {
 	server := cfg.Server(handler)
 
 	if cfg.UseTLS {
-
-		log.Printf("Starting server with TLS on: %s", server.Addr)
-
-		return http.ListenAndServeTLS(
+		log.Printf("Starting HTTPS server on: %s", server.Addr)
+		err := http.ListenAndServeTLS(
 			server.Addr,
 			cfg.CertFile,
 			cfg.KeyFile,
 			handler)
+		log.Printf("HTTPS server (%s) stopped: %s", server.Addr, err)
+		return err
 	}
 
-	log.Printf("Starting server on: %s", server.Addr)
-	return server.ListenAndServe()
+	log.Printf("Starting HTTP server on: %s", server.Addr)
+	err := server.ListenAndServe()
+	log.Printf("HTTP Server (%s) stopped: %s", server.Addr, err)
+	return err
 }
