@@ -1,17 +1,17 @@
 package config
 
-// ConfigSection defines interface used by configuration sections
-type ConfigSection interface {
+// Section defines interface used by configuration sections
+type Section interface {
 	IsValid() error
-	LoadEnvOverrides()
+	LoadFromEnv()
 }
 
-// LoadOverride load config parameters override from .env file
+// LoadOverrides load config parameters override from .env file
 // and validates the configuration options
-func LoadOverride(configs []ConfigSection) error {
+func LoadOverrides(configs []Section) error {
 
 	for _, section := range configs {
-		section.LoadEnvOverrides()
+		section.LoadFromEnv()
 		if err := section.IsValid(); err != nil {
 			return err
 		}

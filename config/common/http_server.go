@@ -19,12 +19,10 @@ type ServerConfig struct {
 	WriteTimeoutSec int
 }
 
-func (cfg *ServerConfig) LoadEnvOverrides() {
+func (cfg *ServerConfig) LoadFromEnv() {
 
 	// Server Configuration overrides
 	config.Env("HTTP_ADDRESS", &cfg.Address)
-
-	// If specified any of this, we'll use it (for backward compatibility)
 	config.EnvInt("HTTP_PORT", &cfg.Port)
 
 	config.EnvBool("HTTP_USE_TLS", &cfg.UseTLS)
