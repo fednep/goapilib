@@ -2,6 +2,9 @@ package common
 
 import (
 	"errors"
+	"fmt"
+	"net/http"
+	"time"
 
 	"github.com/fednep/goapilib/config"
 )
@@ -15,8 +18,7 @@ type ServerConfig struct {
 	CertFile string
 	KeyFile  string
 
-	ReadTimeoutSec  int
-	WriteTimeoutSec int
+	Timeout int
 }
 
 func (cfg *ServerConfig) LoadFromEnv() {
@@ -25,11 +27,9 @@ func (cfg *ServerConfig) LoadFromEnv() {
 	config.Env("HTTP_ADDRESS", &cfg.Address)
 	config.EnvInt("HTTP_PORT", &cfg.Port)
 
+	config.EnvInt("HTTP_TIMEOUT", &cfg.Timeout)
+
 	config.EnvBool("HTTP_USE_TLS", &cfg.UseTLS)
-
-	config.EnvInt("HTTP_READ_TIMEOUT", &cfg.ReadTimeoutSec)
-	config.EnvInt("HTTP_WRITE_TIMEOUT", &cfg.WriteTimeoutSec)
-
 	if cfg.UseTLS {
 		config.Env("HTTP_CERT_FILE", &cfg.CertFile)
 		config.Env("HTTP_KEY_FILE", &cfg.KeyFile)
@@ -49,4 +49,19 @@ func (cfg *ServerConfig) IsValid() error {
 	}
 
 	return nil
+}
+
+func (cfg *ServerConfig) Server(handler http.Handler) *http.Server {
+
+	srv := &http.Server{
+		Addr: fmt.Sprintf("%s:%d", cfg.Address, cfg.Port),
+
+		Handler: handler,
+
+		ReadTimeout:  time.Duration(cfg.Timeout) * time.Second,
+		WriteTimeout: time.Duration(cfg.Timeout) * time.Second,
+		IdleTimeout:  time.Duration(cfg.Timeout) * time.Second,
+	}
+
+	return srv
 }
