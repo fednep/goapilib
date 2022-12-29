@@ -5,35 +5,18 @@ import (
 	"fmt"
 	"net/http"
 	"time"
-
-	"github.com/fednep/goapilib/config"
 )
 
 // ServerConfig contains common config parameters
 // for configuring HTTP(S) server
 type ServerConfig struct {
-	Address  string
-	Port     int
-	UseTLS   bool
-	CertFile string
-	KeyFile  string
+	Address  string `env:"HTTP_ADDRESS"`
+	Port     int    `env:"HTTP_PORT"`
+	UseTLS   bool   `env:"HTTP_USE_TLS"`
+	CertFile string `env:"HTTP_CERT_FILE"`
+	KeyFile  string `env:"HTTP_KEY_FILE"`
 
-	Timeout int
-}
-
-func (cfg *ServerConfig) LoadFromEnv() {
-
-	// Server Configuration overrides
-	config.Env("HTTP_ADDRESS", &cfg.Address)
-	config.EnvInt("HTTP_PORT", &cfg.Port)
-
-	config.EnvInt("HTTP_TIMEOUT", &cfg.Timeout)
-
-	config.EnvBool("HTTP_USE_TLS", &cfg.UseTLS)
-	if cfg.UseTLS {
-		config.Env("HTTP_CERT_FILE", &cfg.CertFile)
-		config.Env("HTTP_KEY_FILE", &cfg.KeyFile)
-	}
+	Timeout int `env:"HTTP_TIMEOUT"`
 }
 
 func (cfg *ServerConfig) IsValid() error {
