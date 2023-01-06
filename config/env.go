@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// StructFromEnv loads data into struct from environment variables.
+// LoadOverrides loads data into struct from environment variables.
 //
 // Names of environment vars are specified using "env" structure tag.
 //
@@ -34,7 +34,7 @@ import (
 //		// for any var name specified in the ConfigSection structue
 //		Section2 ConfigSection `env:"SERVICE"`
 //	}
-func StructFromEnv(cfg any) error {
+func LoadOverrides(cfg any) error {
 	v := reflect.ValueOf(cfg)
 	if v.Kind() != reflect.Ptr {
 		return errors.New("cannot load config for non-pointer")
