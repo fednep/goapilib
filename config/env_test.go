@@ -48,7 +48,7 @@ func TestLoadSectionFromEnv(t *testing.T) {
 
 	s := &MyStruct{}
 
-	err := StructFromEnv(s)
+	err := LoadOverrides(s)
 	if err != nil {
 		t.Fatalf("Parse struct returned error: %s", err)
 	}

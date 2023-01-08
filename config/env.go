@@ -157,22 +157,6 @@ func fillValue(f reflect.Value, tag string) error {
 	return nil
 }
 
-// LoadFromEnv fills all fields of the config structure from the environment
-// variables if env:"" tags are present
-func LoadFromEnv(cfg any) error {
-	s := reflect.ValueOf(cfg).Elem()
-	typeOfT := s.Type()
-	for i := 0; i < s.NumField(); i++ {
-		f := s.Field(i)
-		f.Interface()
-
-		fmt.Printf("%d: %s %s = %v\n", i,
-			typeOfT.Field(i).Name, f.Type(), f.Interface())
-	}
-
-	return nil
-}
-
 // Env loads string value from environment variable if it exists
 func Env(key string, val *string) {
 	if value, ok := os.LookupEnv(key); ok {

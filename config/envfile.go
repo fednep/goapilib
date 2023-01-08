@@ -2,6 +2,7 @@ package config
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -106,4 +107,17 @@ func parseEnvLine(line string) (string, string, error) {
 	}
 
 	return sm[1], sm[3], nil
+}
+
+func fileExists(fn string) (bool, error) {
+	_, err := os.Stat(fn)
+	if err == nil {
+		return true, nil
+	}
+
+	if errors.Is(err, os.ErrNotExist) {
+		return false, nil
+	}
+
+	return false, err
 }
