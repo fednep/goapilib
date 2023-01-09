@@ -2,7 +2,6 @@ package config
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"reflect"
 	"strconv"
@@ -37,11 +36,11 @@ import (
 func LoadOverrides(cfg any) error {
 	v := reflect.ValueOf(cfg)
 	if v.Kind() != reflect.Ptr {
-		return errors.New("cannot load config for non-pointer")
+		return errors.New("cfg is a non-pointer")
 	}
 
 	if v.IsNil() {
-		return errors.New("cannot load to nil value")
+		return errors.New("cfg is nil")
 	}
 
 	return fillStructFromEnv("", v.Elem())
@@ -49,7 +48,7 @@ func LoadOverrides(cfg any) error {
 
 func fillStructFromEnv(prefix string, st reflect.Value) error {
 	if st.Kind() != reflect.Struct {
-		return errors.New("specified interface is not a struct type")
+		return errors.New("not a struct")
 	}
 
 	t := st.Type()
@@ -72,8 +71,6 @@ func fillStructFromEnv(prefix string, st reflect.Value) error {
 		if prefix != "" {
 			tag = prefix + "_" + tag
 		}
-
-		fmt.Printf("Tag: %s\n", tag)
 
 		err := fillValue(f, tag)
 		if err != nil {
