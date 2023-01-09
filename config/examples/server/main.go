@@ -16,7 +16,7 @@ type Config struct {
 func loadConfig() (*Config, error) {
 
 	flagSet := flag.NewFlagSet(os.Args[0], flag.ContinueOnError)
-	tomlFile := flagSet.String("config", "config.toml", "Specify config file in TOML format")
+	tomlFile := flagSet.String("config", "config1.toml", "Specify config file in TOML format")
 	if err := flagSet.Parse(os.Args[1:]); err != nil {
 		return nil, err
 	}

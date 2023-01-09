@@ -11,13 +11,13 @@ import (
 // ServerConfig contains common config parameters
 // for configuring HTTP(S) server
 type ServerConfig struct {
-	Address  string `env:"HTTP_ADDRESS" default:"127.0.0.1"`
+	Address  string `env:"HTTP_ADDRESS"`
 	Port     int    `env:"HTTP_PORT"`
 	UseTLS   bool   `env:"HTTP_USE_TLS"`
 	CertFile string `env:"HTTP_CERT_FILE"`
 	KeyFile  string `env:"HTTP_KEY_FILE"`
 
-	Timeout int `env:"HTTP_TIMEOUT" default:"10"`
+	Timeout int `env:"HTTP_TIMEOUT"`
 }
 
 func (cfg ServerConfig) IsValid() error {
