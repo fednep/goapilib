@@ -12,7 +12,7 @@ type FieldError struct {
 }
 
 func (e FieldError) Error() string {
-	return fmt.Sprintf("Field %q: %s", e.FieldName, e.Message)
+	return fmt.Sprintf("field %q: %s", e.FieldName, e.Message)
 }
 
 // Section defines interface used by configuration sections
@@ -57,7 +57,7 @@ func validate(st reflect.Value) error {
 		if kind == reflect.Struct {
 			err := validate(f)
 			if err != nil {
-				return err
+				return fmt.Errorf("[%s] %w", tf.Name, err)
 			}
 		}
 	}

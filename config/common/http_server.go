@@ -23,7 +23,7 @@ type ServerConfig struct {
 func (cfg ServerConfig) IsValid() error {
 
 	if cfg.Port == 0 {
-		return config.FieldError{FieldName: "Port", Message: "Not configured"}
+		return config.FieldError{FieldName: "Port", Message: "not configured"}
 	}
 
 	if cfg.UseTLS {
