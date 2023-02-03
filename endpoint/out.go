@@ -7,16 +7,12 @@ import (
 
 // Usage pattern
 //
-
 // func (...) handlePage(w ResponseWriter, r *http.Request) (any, error) {
-// 		obj := User{}
-//    	err := endpoint.In(&obj)
+//      obj := User{}
+//      err := endpoint.In(&obj)
 //      ...
-// 		return outObj, nil
+//      return outObj, nil
 // }
-
-// 1. Do this function need to have a context?
-// 2. Sohuld it return any error?
 func Success(w http.ResponseWriter, obj any) error {
 	w.Header().Add("Content-Type", "application/json")
 
